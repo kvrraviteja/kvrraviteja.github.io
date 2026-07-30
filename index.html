@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ledger — Family Document Vault</title>
+<meta name="description" content="Track every family document, never miss an expiry. Private by design — your scans stay on your device and in your private iCloud. No servers, no accounts.">
+<meta property="og:title" content="Ledger — Family Document Vault">
+<meta property="og:description" content="Track every family document, never miss an expiry. Private by design.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kvrraviteja.github.io/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:      #F4EEE1;
+    --ink:        #1A1810;
+    --muted:      #78706A;
+    --navy:       #1A1B25;
+    --navy-mid:   #242639;
+    --terracotta: #C74A2E;
+    --amber:      #D18F24;
+    --brass:      #C4A464;
+    --sage:       #2E8C5E;
+    --card:       #FFFFFF;
+    --border:     rgba(26,27,37,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Nav ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(26,27,37,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-seal {
+    width: 30px; height: 30px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #F3EFE3;
+  }
+
+  .nav-name {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #F3EFE3;
+  }
+
+  nav a.nav-link {
+    font-size: 14px;
+    color: rgba(243,239,227,0.55);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  nav a.nav-link:hover { color: #F3EFE3; }
+
+  /* ─── Hero ─── */
+  .hero {
+    background: var(--navy);
+    padding: 140px 24px 96px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(196,164,100,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .hero-icon {
+    width: 100px; height: 100px;
+    margin: 0 auto 32px;
+    background: radial-gradient(circle at 30% 20%, #1B2140, #0E1224);
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(196,164,100,0.2);
+  }
+
+  .hero-icon svg {
+    width: 70px; height: 70px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brass);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(40px, 7vw, 68px);
+    font-weight: 700;
+    color: #F3EFE3;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--brass);
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 2.5vw, 20px);
+    color: rgba(243,239,227,0.65);
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.55;
+  }
+
+  .btn-store {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #F3EFE3;
+    color: var(--navy);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 14px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .btn-store:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+  }
+
+  .btn-store svg { width: 20px; height: 20px; }
+
+  .coming-soon {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 13px;
+    color: rgba(243,239,227,0.35);
+  }
+
+  /* ─── Features ─── */
+  .features {
+    padding: 88px 24px;
+    max-width: 1040px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: var(--ink);
+    margin-bottom: 56px;
+    line-height: 1.15;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .feature-card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid var(--border);
+  }
+
+  .feature-icon {
+    width: 44px; height: 44px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+
+  .feature-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─── Privacy ─── */
+  .privacy-band {
+    background: var(--navy-mid);
+    padding: 80px 24px;
+  }
+
+  .privacy-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .privacy-band .section-label { color: var(--brass); }
+
+  .privacy-band .section-title {
+    color: #F3EFE3;
+    margin-bottom: 20px;
+  }
+
+  .privacy-band .lead {
+    color: rgba(243,239,227,0.60);
+    font-size: 17px;
+    line-height: 1.65;
+    margin-bottom: 44px;
+  }
+
+  .privacy-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(243,239,227,0.75);
+  }
+
+  .pill-check { color: #6ABF8A; }
+
+  /* ─── Renewals callout ─── */
+  .renewals-band {
+    padding: 88px 24px;
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  @media (max-width: 640px) {
+    .renewals-band { grid-template-columns: 1fr; gap: 32px; }
+    .renewals-visual { order: -1; }
+  }
+
+  .renewals-band .section-label { text-align: left; }
+  .renewals-band .section-title { text-align: left; margin-bottom: 16px; }
+
+  .renewals-copy p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .renewals-visual {
+    background: var(--navy);
+    border-radius: 20px;
+    padding: 28px 24px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+  }
+
+  .rv-header {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #F3EFE3;
+    margin-bottom: 20px;
+  }
+
+  .rv-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .rv-row:last-child { border-bottom: none; }
+
+  .rv-days {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 700;
+    width: 56px;
+    flex-shrink: 0;
+  }
+
+  .rv-info { flex: 1; }
+  .rv-type { font-size: 13px; font-weight: 500; color: #F3EFE3; }
+  .rv-owner { font-size: 12px; color: rgba(243,239,227,0.45); }
+
+  /* ─── Footer ─── */
+  footer {
+    background: var(--navy);
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #F3EFE3;
+    margin-bottom: 12px;
+  }
+
+  footer p {
+    font-size: 13px;
+    color: rgba(243,239,227,0.35);
+    margin-bottom: 6px;
+  }
+
+  footer a {
+    color: rgba(243,239,227,0.45);
+    text-decoration: none;
+    margin: 0 12px;
+    font-size: 13px;
+  }
+
+  footer a:hover { color: rgba(243,239,227,0.8); }
+
+  .footer-links { margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-seal">L</div>
+    <span class="nav-name">Ledger</span>
+  </a>
+  <a class="nav-link" href="privacy.html">Privacy</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-icon">
+    <svg viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="brass" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#D4B27E"/>
+          <stop offset="100%" stop-color="#96723F"/>
+        </linearGradient>
+      </defs>
+      <circle cx="35" cy="33" r="18.5" fill="none" stroke="url(#brass)" stroke-width="1"/>
+      <circle cx="35" cy="33" r="15.2" fill="none" stroke="url(#brass)" stroke-width="0.4" opacity="0.6"/>
+      <text x="35" y="42" font-family="serif" font-size="22" font-weight="600"
+            fill="#F3EFE3" text-anchor="middle">L</text>
+      <path d="M 27.5 50 L 27.5 60 L 31.5 57.2 L 35 60 L 35 50"
+            fill="none" stroke="url(#brass)" stroke-width="1"
+            stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M 42.5 50 L 42.5 60 L 38.5 57.2 L 35 60 L 35 50"
+            fill="none" stroke="url(#brass)" stroke-width="1"
+            stroke-linejoin="round" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <div class="eyebrow">iOS App</div>
+
+  <h1>Your family's documents,<br><em>never expired.</em></h1>
+
+  <p class="hero-sub">
+    Ledger tracks passports, visas, licenses, and every other document
+    with an expiry date — for the whole family. Private by design.
+  </p>
+
+  <a class="btn-store" href="#" id="appstore-btn">
+    <svg viewBox="0 0 20 20" fill="currentColor">
+      <path d="M15.25 10.5c-.02-2.16 1.77-3.2 1.85-3.25-1.01-1.47-2.57-1.68-3.13-1.7-1.33-.13-2.6.78-3.27.78-.67 0-1.7-.76-2.8-.74-1.44.02-2.77.84-3.51 2.13-1.5 2.6-.38 6.45 1.07 8.56.71 1.03 1.56 2.18 2.68 2.14 1.08-.04 1.49-.69 2.79-.69 1.3 0 1.67.69 2.8.67 1.16-.02 1.89-1.04 2.6-2.08.82-1.19 1.16-2.35 1.18-2.41-.03-.01-2.24-.86-2.26-3.41z"/>
+      <path d="M13.1 4.27c.59-.72.99-1.71.88-2.7-.85.04-1.89.57-2.5 1.27-.55.63-1.03 1.65-.9 2.62.94.07 1.93-.48 2.52-1.19z"/>
+    </svg>
+    Download on the App Store
+  </a>
+  <div class="coming-soon" id="coming-soon-label">Coming soon to the App Store</div>
+</section>
+
+<!-- Features -->
+<section class="features">
+  <div class="section-label">What Ledger does</div>
+  <h2 class="section-title">Everything expires.<br>Nothing should catch you off guard.</h2>
+
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FFF3E0;">📅</div>
+      <h3>Expiry tracking</h3>
+      <p>Bold countdown timers show exactly how many days until each document expires. Sorted by urgency across your whole family.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#E8F0FE;">📷</div>
+      <h3>Smart scanning</h3>
+      <p>Point your camera and Ledger reads the document automatically — expiry dates, document numbers, issuing authorities. 100% on-device.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#E8F5E9;">🔔</div>
+      <h3>Renewal reminders</h3>
+      <p>Alerts at 90, 30, and 7 days before expiry. Tap a notification to jump straight to the document.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#F3E5F5;">👨‍👩‍👧</div>
+      <h3>Built for families</h3>
+      <p>Separate profiles for every family member. Filter by person to see only their documents. One vault for the whole household.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FFF8E1;">📱</div>
+      <h3>Home screen widget</h3>
+      <p>See your next upcoming renewals without opening the app. Small and medium widget sizes for your home screen.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#E0F2F1;">📤</div>
+      <h3>Export anytime</h3>
+      <p>Export your full vault as PDFs organized by family member and category. Your documents are always portable.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Renewals callout -->
+<section style="background: white; padding: 0;">
+  <div class="renewals-band">
+    <div class="renewals-copy">
+      <div class="section-label">Renewals screen</div>
+      <h2 class="section-title">Know what needs attention, instantly.</h2>
+      <p>The Renewals screen sorts every expiring document across your whole family by urgency — most critical at the top. Big serif day counts make it impossible to miss.</p>
+      <p>Filter by family member to focus on one person's upcoming renewals. A footer note confirms when everything else is in order.</p>
+    </div>
+    <div class="renewals-visual">
+      <div class="rv-header">Upcoming Renewals</div>
+      <div class="rv-row">
+        <div class="rv-days" style="color:#C74A2E;">12d</div>
+        <div class="rv-info">
+          <div class="rv-type">Passport</div>
+          <div class="rv-owner">Ravi</div>
+        </div>
+      </div>
+      <div class="rv-row">
+        <div class="rv-days" style="color:#D18F24;">45d</div>
+        <div class="rv-info">
+          <div class="rv-type">Driver's License</div>
+          <div class="rv-owner">Priya</div>
+        </div>
+      </div>
+      <div class="rv-row">
+        <div class="rv-days" style="color:#2E8C5E;">88d</div>
+        <div class="rv-info">
+          <div class="rv-type">Health Insurance</div>
+          <div class="rv-owner">Ravi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Privacy band -->
+<section class="privacy-band">
+  <div class="privacy-inner">
+    <div class="section-label">Privacy</div>
+    <h2 class="section-title">No servers. No accounts.<br>No one but you.</h2>
+    <p class="lead">
+      Ledger has no backend. Your document scans and data are stored only
+      on your device and in your personal iCloud private database —
+      the same place Apple stores your Health data and Keychain.
+      We cannot see your documents. Nobody can.
+    </p>
+    <div class="privacy-pills">
+      <div class="pill"><span class="pill-check">✓</span> On-device OCR — no cloud processing</div>
+      <div class="pill"><span class="pill-check">✓</span> Face ID protected</div>
+      <div class="pill"><span class="pill-check">✓</span> No analytics or tracking</div>
+      <div class="pill"><span class="pill-check">✓</span> CloudKit private database</div>
+      <div class="pill"><span class="pill-check">✓</span> No account or login required</div>
+      <div class="pill"><span class="pill-check">✓</span> Supports Advanced Data Protection</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-logo">Ledger</div>
+  <p>Family Document Vault · iOS</p>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="mailto:ravi@skydrift.ai">Contact</a>
+  </div>
+  <p style="margin-top: 20px;">© 2026 Ravi K</p>
+</footer>
+
+<script>
+  // Swap "Coming Soon" for real App Store link when available
+  // Replace the href below with the actual App Store URL after submission
+  const APP_STORE_URL = '';
+  if (APP_STORE_URL) {
+    document.getElementById('appstore-btn').href = APP_STORE_URL;
+    document.getElementById('coming-soon-label').style.display = 'none';
+  } else {
+    document.getElementById('appstore-btn').style.opacity = '0.45';
+    document.getElementById('appstore-btn').style.pointerEvents = 'none';
+  }
+</script>
+
+</body>
+</html>
